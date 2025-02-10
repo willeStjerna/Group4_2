@@ -51,3 +51,35 @@ If you create a new branch, develop a feature, push changes, and delete the bran
 The venv/ folder only exists locally for you and does not get uploaded to GitHub.
 
 Every time before you start coding, activate venv
+
+
+# Current Server configuration (adress might change in the future)
+URL: feasible-robin-vaguely.ngrok-free.app 
+
+Port: 8004
+
+## ngrok setup
+
+### Start online server [temporary adress] (Currently test_ngrok_connection.py does not work with this)
+`ngrok http http://localhost:8004`
+
+### Start online server [static adress]
+`ngrok http --url=feasible-robin-vaguely.ngrok-free.app 8004`
+
+The adress can be found under Static Domain on
+https://dashboard.ngrok.com/get-started/setup/linux
+
+####
+The static server adress is 
+feasible-robin-vaguely.ngrok-free.app
+
+### Error/sucess codes in a web-browser: 
+- ERR_NGROK_3200: If the ngrok server is not on
+- ERR_NGROK_8012: Our server is not on
+- If both are on it should say something else.
+    - It should say in JSON: `message	"CI Server is running!"`
+
+### How to run server
+While in folder GROUP4_2 run:
+
+`python -m src.server`
