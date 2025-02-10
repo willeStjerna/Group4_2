@@ -7,6 +7,7 @@ import git
 def clone_pull_repo(repo_url, repo_dir):
     """
     Function pulls or clones a GitHub repository based on a repo url. Pulls if repository already exists, otherwise clones.
+    If the remote repo is pulled, it is reset to the latest commit (discarding local changes) and removes untracked directories.
     
     repo_url (str): The Git repository URL
     repo_dir (str): The directory to clone the repository
