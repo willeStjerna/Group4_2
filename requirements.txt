@@ -1,0 +1,6 @@
+flask             # Web framework to handle GitHub webhooks
+gitpython         # Library to manage Git repositories (clone, pull, checkout)
+requests         # HTTP requests library for interacting with GitHub API
+pytest           # Test framework for running automated tests
+flake8           # Linter for static code analysis (Python syntax checking)
+pyngrok          # Exposes local server to the internet for GitHub webhooks
