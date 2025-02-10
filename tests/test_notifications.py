@@ -1,6 +1,11 @@
 import unittest
 from unittest.mock import patch
 import smtplib
+import sys
+import os
+
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../src')))
+import notifications
 
 class TestNotifications(unittest.TestCase):
 
@@ -10,8 +15,7 @@ class TestNotifications(unittest.TestCase):
         Tests if emails are sent from the CI server using mock unit tests in order to improve efficiency and safety.
         """
         mock_server = mock_smtp.return_value
-        # change line below to incorporate file_name and function_name when those functions are implemented
-        # file_name.function_name("Testing testing")
+        notifications.send_email_notification("Testing testing")
 
         mock_server.sendmail.assert_called()
         mock_server.quit.assert_called()
