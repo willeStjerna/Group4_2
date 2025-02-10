@@ -6,8 +6,8 @@ import git
 from unittest.mock import patch
 # Update line below to match the file, function and variable names that are to be implemented
 # from file_name import clone_pull_function, repo_url, repo_dir
-repo_url = "https://github.com/XXXXXXXXXXXXXXX"
-repo_dir = "./XXXXXXXXXXXXX"
+repo_url = "https://github.com/willeStjerna/Group4_2"
+repo_dir = "./test_repo"
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../src')))
 import ci_pipeline
