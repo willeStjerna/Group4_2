@@ -9,28 +9,42 @@ class CIPipeline:
         self.logger = BuildLogger()
 
 
-    def clone_pull_repo(repo_url, repo_dir):
+    def clone_pull_repo(self, repo_url, repo_dir, branch_name="main"):
         """
-        Function pulls or clones a GitHub repository based on a repo url. Pulls if repository already exists, otherwise clones.
-        If the remote repo is pulled, it is reset to the latest commit (discarding local changes) and removes untracked directories.
+        Clones or pulls a GitHub repository and checks out the correct branch.
         
-        repo_url (str): The Git repository URL
-        repo_dir (str): The directory to clone the repository
+        Args:
+            repo_url (str): The Git repository URL.
+            repo_dir (str): The directory where the repository should be cloned.
+            branch_name (str): The branch to check out.
+        
+        Returns:
+            bool: True if successful, False otherwise.
         """
         try:
             if os.path.exists(repo_dir):
                 repo = git.Repo(repo_dir)
                 repo.git.reset("--hard")
                 repo.git.clean("-fd")
+                repo.git.fetch()
+
+                # Checkout the correct branch
+                if branch_name in repo.heads:
+                    repo.git.checkout(branch_name)
+                else:
+                    repo.git.checkout('-b', branch_name)
+
                 repo.remotes.origin.pull()
-                print("Repository was successfully pulled.")
+                self.logger.log_build_result(branch_name, "git", "success", f"Checked out and pulled branch {branch_name}.")
             else:
-                git.Repo.clone_from(repo_url, repo_dir)
-                print("Repository was successfully cloned. Available at:", repo_dir)
-            
-        
+                git.Repo.clone_from(repo_url, repo_dir, branch=branch_name)
+                self.logger.log_build_result(branch_name, "git", "success", f"Cloned repository at {repo_dir} with branch {branch_name}.")
+
+            return True
+
         except Exception as e:
-            print(f"An error occurred when cloning or pulling the remote repository: {e}")
+            self.logger.log_build_result(branch_name, "git", "failure", f"Error cloning/pulling repo: {e}")
+            return False
     
     def check_python_syntax(self, build_id, repo_path):
         """
