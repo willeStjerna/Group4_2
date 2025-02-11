@@ -45,7 +45,7 @@ class CIServer:
         
         # Cleanup workspace
         self.pipeline.cleanup_workspace(workspace)
-
+        print("here")
         # Determine final status
         final_status = "Success" if tests_success else "Failure"
         send_email_notification(commit_id, author_email, final_status, "CI Process Completed.")
