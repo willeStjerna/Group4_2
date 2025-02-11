@@ -127,7 +127,12 @@ class CIPipeline:
             return False
     
     def cleanup_workspace(self, repo_path):
-      
+        """
+        Deletes the repository workspace after the CI process is complete.
+        
+        Args:
+            repo_path (str): Path to the repository to be removed.
+        """
         try:
             shutil.rmtree(repo_path)
             self.logger.log_build_result("cleanup", "workspace", "success", f"Workspace {repo_path} removed.")
