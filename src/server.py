@@ -4,6 +4,11 @@ import uuid
 from flask import Flask, request, jsonify
 from git import Repo
 from .ci_pipeline import CIPipeline
+from .notifications import send_email_notification
+
+members = {
+    "agussarsson": "arvid.gussarsson@gmail.com"
+}
 
 class CIServer:
     def __init__(self, base_dir='/tmp/ci_workspaces'):
@@ -32,7 +37,7 @@ def index():
     return jsonify({"message": "CI Server is running!"}), 200
 
 
-# Starting point to handle GitHub webhooks
+# Handling GitHub webhooks
 @app.route("/webhook", methods=["POST"])
 def webhook():
 
@@ -42,16 +47,30 @@ def webhook():
     # Try to parse JSON 
     try: 
         data = request.get_json(silent=True)  # silent=True prevents automatic 415 errors
+
+        if not data:
+            return jsonify({"error": "no JSON data found"}), 400
+
+        print("data found:", data) # Print to let user know that data was found
+
+        repo_url = data["repository"]["clone_url"]
+        commit_id = data["head_commit"]["id"]
+        author = data["pusher"]["name"]
+
+        author_email = members.get(author)
+
+        build_id, build_status, log_output = ci_server.process_build(repo_url)
+
+        send_email_notification(commit_id, author_email, "Success" if build_status else "Failure", log_output) # Send automatic build email
+
+        return jsonify({
+            "build_id": build_id,
+            "status": "Success" if build_status else "Failure",
+            "logs": log_output
+        }), 200
+
     except Exception:
         return jsonify({"error": "Invalid JSON format"}), 400
-
-    if not data:  # Handle empty or missing JSON
-        return jsonify({"error": "No JSON payload provided"}), 400
-
-    # Print incoming JSON payload and return a response
-    print("Webhook received:", data)
-
-    return "Webhook received!", 200
 
 
 if __name__ == '__main__':
