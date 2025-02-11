@@ -1,15 +1,20 @@
 import unittest
 import requests
 from unittest.mock import patch
-# IMPORT when file, function and variable names are implemented
+import sys
+import os
+
+
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../src')))
+import server
 
 class TestGitHubAPI(unittest.TestCase):
     def setUp(self):
         """
         Create a simulated client for the CI server
         """
-        flask_app.testing = True # Enables testing in flask, CHANGE name when the flask app is implemented
-        self.client = flask_app.sim_client() # ALSO CHANGE name when the flask app is implemented
+        server.app.testing = True
+        self.client = server.app.sim_client()
 
     def test_webhook_payload(self):
         """
@@ -17,7 +22,7 @@ class TestGitHubAPI(unittest.TestCase):
         """
         payload = {
             "ref": "refs/heads/main",
-            "repository": {"clone_url": "https://github.com/XXXXXXXXXXXXXXXXXXX"},
+            "repository": {"clone_url": "https://github.com/https://github.com/willeStjerna/Group4_2"},
             "pusher": {"name": "test-user"}
         }
 
@@ -32,7 +37,7 @@ class TestGitHubAPI(unittest.TestCase):
         post.return_value.status_code = 200
         post.return_value.json.return_value = {"message": "OK"}
 
-        response = requests.post("https://api.github.com/XXXXXXXXXXXXXXXXXXXXXXXXXXXX/hooks")
+        response = requests.post("https://api.github.com/https://github.com/willeStjerna/Group4_2/hooks")
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.json()["message"], "OK")
 
