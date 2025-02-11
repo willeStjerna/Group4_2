@@ -18,16 +18,38 @@ class CIServer:
         os.makedirs(base_dir, exist_ok=True)
         self.pipeline = CIPipeline()
         
-    def process_build(self, repo_url):
+    def process_build(self, repo_url, branch_name, commit_id, author_email):
+        """
+        Executes the CI process: Clone repo, run syntax check, run tests, cleanup.
+        """
         build_id = str(uuid.uuid4())
         workspace = os.path.join(self.base_dir, build_id)
-        
-        # Clone repository
-        repo = Repo.clone_from(repo_url, workspace)
-        
+
+        print(f"[CI SERVER] Starting CI process for {repo_url} on branch {branch_name} (commit: {commit_id})")
+
+        # Clone or pull the repository
+        clone_success = self.pipeline.clone_pull_repo(repo_url, workspace, branch_name)
+        if not clone_success:
+            send_email_notification(commit_id, author_email, "Failure", "Cloning repository failed.")
+            return build_id, False, "Cloning repository failed."
+
         # Run syntax check
-        syntax_ok = self.pipeline.check_python_syntax(build_id, workspace)
-        return build_id, syntax_ok
+        syntax_success = self.pipeline.check_python_syntax(build_id, workspace)
+        if not syntax_success:
+            send_email_notification(commit_id, author_email, "Failure", "Syntax errors detected.")
+            return build_id, False, "Syntax errors detected."
+
+        # Run tests
+        tests_success = self.pipeline.run_tests(build_id, workspace)
+
+        # Cleanup workspace
+        self.pipeline.cleanup_workspace(workspace)
+
+        # Determine final status
+        final_status = "Success" if tests_success else "Failure"
+        send_email_notification(commit_id, author_email, final_status, "CI Process Completed.")
+
+        return build_id, tests_success, "CI Process Completed."
 
 
 # Flask API for CI Server
