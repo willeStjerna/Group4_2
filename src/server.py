@@ -5,6 +5,7 @@ from flask import Flask, request, jsonify
 from git import Repo
 from .ci_pipeline import CIPipeline
 from .notifications import send_email_notification
+import threading
 
 members = {
     "agussarsson": "arvid.gussarsson@gmail.com",
@@ -41,7 +42,7 @@ class CIServer:
 
         # Run tests
         tests_success = self.pipeline.run_tests(build_id, workspace)
-
+        
         # Cleanup workspace
         self.pipeline.cleanup_workspace(workspace)
 
@@ -75,9 +76,7 @@ def webhook():
         if not data:
             return jsonify({"error": "no JSON data found"}), 400
 
-        print("data found:", data) # Print to let user know that data was found
-
-        repo_url = data["clone_url"]  # Extracted from top-level JSON
+        repo_url = data["repository"]["clone_url"]  # Extracted from top-level JSON
         branch_name = data["ref"].split("/")[-1]  # Extract branch name from "refs/heads/<branch>"
         commit_id = data["head_commit"]["id"]
         commit_message = data["head_commit"]["message"]
@@ -88,12 +87,18 @@ def webhook():
 
         author_email = members.get(author_username)
 
-        build_id, test_success, log_output = ci_server.process_build(repo_url, branch_name, commit_id, author_email)
+        def run_ci(repo_url, branch_name, commit_id, author_email):
+            """
+            Function to execute CI process asynchronously.
+            """
+            build_id, test_success, log_output = ci_server.process_build(repo_url, branch_name, commit_id, author_email)
+            send_email_notification(commit_id, author_email, "Success" if test_success else "Failure", log_output)
 
-        send_email_notification(commit_id, author_email, "Success" if test_success else "Failure", log_output) # Send automatic build email
-
+        # Start a daemon thread
+        thread = threading.Thread(target=run_ci, args=(repo_url, branch_name, commit_id, author_email))
+        thread.daemon = True  # Ensures the thread does not block Flask shutdown
+        thread.start()
         return jsonify({
-            "build_id": build_id,
             "message": "CI process started",
             "repository": repo_url,
             "branch": branch_name,
