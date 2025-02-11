@@ -3,6 +3,7 @@ import ast
 import os
 from .logger import BuildLogger
 import git
+import subprocess
 
 class CIPipeline:
     def __init__(self):
@@ -89,6 +90,40 @@ class CIPipeline:
             'All Python files passed syntax check'
         )
         return True
+    
+    def run_tests(self, build_id, repo_path):
+        """
+        Runs unit tests in the repository using pytest.
+        
+        Args:
+            build_id (str): Unique identifier for the build.
+            repo_path (str): Path to the repository.
+
+        Returns:
+            bool: True if all tests pass, False otherwise.
+        """
+        
+        tests_dir = os.path.join(repo_path, "tests")
+
+        # Check if a tests directory exists
+        if not os.path.isdir(tests_dir):
+            self.logger.log_build_result(build_id, "tests", "skipped", "No tests directory found.")
+            return True  # No tests to run, treat as success
+
+        try:
+            # Run pytest and capture output
+            result = subprocess.run(["pytest", tests_dir], capture_output=True, text=True)
+
+            if result.returncode == 0:
+                self.logger.log_build_result(build_id, "tests", "success", "All tests passed.")
+                return True
+            else:
+                self.logger.log_build_result(build_id, "tests", "failure", result.stdout + "\n" + result.stderr)
+                return False
+
+        except Exception as e:
+            self.logger.log_build_result(build_id, "tests", "failure", f"Test execution error: {e}")
+            return False
 
 
 
