@@ -26,6 +26,23 @@ class TestCIPipeline(unittest.TestCase):
         else:
             ci_pipeline.clone_pull_repo(repo_url, repo_dir)
             mock_clone.assert_called_with(repo_url, repo_dir)
+            
+            
+    def test_check_python_syntax_valid(self):
+        """
+        Test syntax checking with valid Python code.
+        """
+        # Setup
+        os.makedirs(self.test_repo_dir)
+        test_file = os.path.join(self.test_repo_dir, "test.py")
+        with open(test_file, 'w') as f:
+            f.write("def valid_function():\n    return True")
+
+        # Execute
+        result = self.pipeline.check_python_syntax(self.test_build_id, self.test_repo_dir)
+
+        # Assert
+        self.assertTrue(result)
 
 if __name__ == "__main__":
     unittest.main()
