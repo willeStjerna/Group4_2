@@ -92,6 +92,16 @@ class CIPipeline:
         return True
     
     def run_tests(self, build_id, repo_path):
+        """
+        Runs unit tests in the repository using pytest.
+        
+        Args:
+            build_id (str): Unique identifier for the build.
+            repo_path (str): Path to the repository.
+
+        Returns:
+            bool: True if all tests pass, False otherwise.
+        """
         
         tests_dir = os.path.join(repo_path, "tests")
 
