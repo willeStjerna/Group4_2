@@ -6,9 +6,6 @@ from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 import sys
 
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../src')))
-import server
-
 smtp_server = "smtp.mailersend.net"
 port = 587
 sender = "MS_EbrG0O@trial-pr9084zq8rj4w63d.mlsender.net"
