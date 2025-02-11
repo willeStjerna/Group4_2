@@ -7,7 +7,9 @@ from .ci_pipeline import CIPipeline
 from .notifications import send_email_notification
 
 members = {
-    "agussarsson": "arvid.gussarsson@gmail.com"
+    "agussarsson": "arvid.gussarsson@gmail.com",
+    "andrelindgren": "andrel4@kth.se",
+    "willeStjerna": "wille.stjerna@gmail.com"
 }
 
 class CIServer:
@@ -45,7 +47,7 @@ def webhook():
         return jsonify({"error": "Unsupported Media Type, expected application/json"}), 415
 
     # Try to parse JSON 
-    try: 
+    try:
         data = request.get_json(silent=True)  # silent=True prevents automatic 415 errors
 
         if not data:
