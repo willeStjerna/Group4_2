@@ -11,3 +11,6 @@ __pycache__/
 # Ignore system files
 .DS_Store  # macOS
 Thumbs.db  # Windows
+
+# Ignore config.json
+config.json
