@@ -1,7 +1,7 @@
 # Main CI logic (compilation, testing)
 import ast
 import os
-from .logger import BuildLogger
+from logger import BuildLogger
 import git
 import subprocess
 import shutil

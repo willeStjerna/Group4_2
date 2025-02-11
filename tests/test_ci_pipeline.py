@@ -3,6 +3,7 @@ import os
 import sys
 import subprocess
 import git
+import shutil
 from unittest.mock import patch
 # Update line below to match the file, function and variable names that are to be implemented
 # from file_name import clone_pull_function, repo_url, repo_dir
@@ -13,7 +14,7 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../src'
 import ci_pipeline
 
 class TestCIPipeline(unittest.TestCase):
-
+    
     @patch("git.Repo.clone_from")
     @patch("git.Repo.git.pull")
     def test_repo(self, mock_pull, mock_clone):
@@ -26,6 +27,50 @@ class TestCIPipeline(unittest.TestCase):
         else:
             ci_pipeline.clone_pull_repo(repo_url, repo_dir)
             mock_clone.assert_called_with(repo_url, repo_dir)
+    
+    
+    
+    def setUp(self):
+        """
+        Set up test environment before each test.
+        """
+        self.pipeline = ci_pipeline.CIPipeline()
+        self.test_build_id = "test_build"
+        self.test_repo_dir = "./test_syntax_repo"
+
+    def tearDown(self):
+        """
+        Clean up after each test.
+        """
+        if os.path.exists(self.test_repo_dir):
+            shutil.rmtree(self.test_repo_dir)
+            
+    def test_check_python_syntax_valid(self):
+        """
+        Test syntax checking with valid Python code.
+        """
+        
+        os.makedirs(self.test_repo_dir)
+        test_file = os.path.join(self.test_repo_dir, "test.py")
+        with open(test_file, 'w') as f:
+            f.write("def valid_function():\n    return True")
+
+        result = self.pipeline.check_python_syntax(self.test_build_id, self.test_repo_dir)
+        self.assertTrue(result)
+        
+    def test_check_python_syntax_invalid(self):
+        """
+        Test syntax checking with invalid Python code.
+        """
+        os.makedirs(self.test_repo_dir)
+        test_file = os.path.join(self.test_repo_dir, "test.py")
+        with open(test_file, 'w') as f:
+            f.write("def invalid_function():\n    return True:")
+
+        result = self.pipeline.check_python_syntax(self.test_build_id, self.test_repo_dir)
+        self.assertFalse(result)
+        
+
 
 if __name__ == "__main__":
     unittest.main()
