@@ -77,24 +77,36 @@ def webhook():
 
         print("data found:", data) # Print to let user know that data was found
 
-        repo_url = data["repository"]["clone_url"]
+        repo_url = data["clone_url"]  # Extracted from top-level JSON
+        branch_name = data["ref"].split("/")[-1]  # Extract branch name from "refs/heads/<branch>"
         commit_id = data["head_commit"]["id"]
-        author = data["pusher"]["name"]
+        commit_message = data["head_commit"]["message"]
+        commit_url = data["head_commit"]["url"]
 
-        author_email = members.get(author)
+        author_username = data["head_commit"]["author"]["username"]
+        author_email = data["head_commit"]["author"]["email"]
 
-        build_id, build_status, log_output = ci_server.process_build(repo_url)
+        author_email = members.get(author_username)
 
-        send_email_notification(commit_id, author_email, "Success" if build_status else "Failure", log_output) # Send automatic build email
+        build_id, test_success, log_output = ci_server.process_build(repo_url, branch_name, commit_id, author_email)
+
+        send_email_notification(commit_id, author_email, "Success" if test_success else "Failure", log_output) # Send automatic build email
 
         return jsonify({
             "build_id": build_id,
-            "status": "Success" if build_status else "Failure",
-            "logs": log_output
+            "message": "CI process started",
+            "repository": repo_url,
+            "branch": branch_name,
+            "commit_id": commit_id,
+            "commit_message": commit_message,
+            "commit_url": commit_url
         }), 200
 
-    except Exception:
-        return jsonify({"error": "Invalid JSON format"}), 400
+    except KeyError as e:
+        return jsonify({"error": f"Missing expected data in webhook: {e}"}), 400
+
+    except Exception as e:
+        return jsonify({"error": f"Unexpected error: {e}"}), 500
 
 
 if __name__ == '__main__':
