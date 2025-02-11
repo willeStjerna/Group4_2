@@ -4,6 +4,7 @@ import os
 from .logger import BuildLogger
 import git
 import subprocess
+import shutil
 
 class CIPipeline:
     def __init__(self):
@@ -124,6 +125,19 @@ class CIPipeline:
         except Exception as e:
             self.logger.log_build_result(build_id, "tests", "failure", f"Test execution error: {e}")
             return False
+    
+    def cleanup_workspace(self, repo_path):
+        """
+        Deletes the repository workspace after the CI process is complete.
+        
+        Args:
+            repo_path (str): Path to the repository to be removed.
+        """
+        try:
+            shutil.rmtree(repo_path)
+            self.logger.log_build_result("cleanup", "workspace", "success", f"Workspace {repo_path} removed.")
+        except Exception as e:
+            self.logger.log_build_result("cleanup", "workspace", "failure", f"Error deleting workspace: {e}")
 
 
 
