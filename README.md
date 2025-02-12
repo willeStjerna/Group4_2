@@ -152,4 +152,5 @@ While in folder GROUP4_2 run:
 ## Statement of Contributions
 This project was developed collaboratively, with contributions distributed as follows:
 
+William Yu Stjernström: Worked on README, project setup (scripts, venv), ci_pipeline (test execution, cleanup), server (asynchronous thread for CI, process build) and  logging (printing) of status of ci server.
 
