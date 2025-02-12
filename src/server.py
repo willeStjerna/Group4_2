@@ -90,7 +90,7 @@ def webhook():
             Function to execute CI process asynchronously.
             """
             build_id, test_success, log_output = ci_server.process_build(repo_url, branch_name, commit_id, author_email)
-            send_email_notification(build_id, author_email, test_success, log_output)
+            send_email_notification(build_id, author_email, test_success, log_output, author_username, branch_name)
 
         # Start a daemon thread
         thread = threading.Thread(target=run_ci, args=(repo_url, branch_name, commit_id, author_email))

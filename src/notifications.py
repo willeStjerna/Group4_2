@@ -14,7 +14,7 @@ port = 587
 sender = os.getenv("smtp_sender")
 pwd = os.getenv("smtp_pwd")
 
-def send_email_notification(commit_id, receiver, build_status, log_output):
+def send_email_notification(commit_id, receiver, build_status, log_output, user, branch):
     """
     Sends an email notification about the CI build result.
 
@@ -25,6 +25,8 @@ def send_email_notification(commit_id, receiver, build_status, log_output):
     subject = f"CI Build: {build_status}, Commit: {commit_id[:7]}"
     message = f"""
     The CI build for commit {commit_id} {build_status}.
+
+    Made by user: {user}, on branch: {branch}.
 
     Build logs:
     {log_output}
