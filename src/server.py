@@ -46,26 +46,24 @@ class CIServer:
 
         # Run syntax check
         logging.info("Running syntax check...")
-        syntax_success = self.pipeline.check_python_syntax(build_id, workspace)
+        syntax_output, syntax_success = self.pipeline.check_python_syntax(build_id, workspace)
         if not syntax_success:
             logging.error("Syntax errors detected.")
-            send_email_notification(commit_id, author_email, "Failure", "Syntax errors detected.")
-            return build_id, False, "Syntax errors detected."
+            return build_id, "failed", syntax_output
 
         # Run tests
         logging.info("Running tests...")
-        tests_success = self.pipeline.run_tests(build_id, workspace)
+        std_output, tests_success = self.pipeline.run_tests(build_id, workspace)
         
         # Cleanup workspace
         logging.info("Cleaning up workspace...")
         self.pipeline.cleanup_workspace(workspace)
 
         # Determine final status
-        final_status = "Success" if tests_success else "Failure"
+        final_status = "succeeded" if tests_success else "failed"
         logging.info(f"CI process completed with status: {final_status}")
-        send_email_notification(commit_id, author_email, final_status, "CI Process Completed.")
 
-        return build_id, tests_success, "CI Process Completed."
+        return build_id, final_status, std_output
 
 
 # Flask API for CI Server
@@ -121,7 +119,7 @@ def webhook():
             """
             logging.info(f"Starting async CI process for commit {commit_id} on branch {branch_name}...")
             build_id, test_success, log_output = ci_server.process_build(repo_url, branch_name, commit_id, author_email)
-            send_email_notification(commit_id, author_email, "Success" if test_success else "Failure", log_output)
+            send_email_notification(build_id, author_email, test_success, log_output, author_username, branch_name)
 
         # Start a daemon thread
         thread = threading.Thread(target=run_ci, args=(repo_url, branch_name, commit_id, author_email))
