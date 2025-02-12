@@ -35,7 +35,7 @@ Unit tests for syntax checking are defined in `test_ci_pipeline.py`. They ensure
 #### Unit Testing Test Execution
 `test_ci_pipeline.py` contains test cases for:
 - Running tests on a repository with valid test files.
-- Handling missing test directories gracefully.
+- Handling missing test directories.
 - Capturing test output and build results.
 
 ### Notification System Implementation & Unit Testing
@@ -48,7 +48,7 @@ Unit tests for syntax checking are defined in `test_ci_pipeline.py`. They ensure
 #### Unit Testing Email Notifications
 `test_notifications.py` uses `unittest.mock.patch` to simulate SMTP interactions, ensuring:
 - Emails are correctly formatted and sent.
-- Errors in email delivery are handled gracefully.
+- Errors in email delivery are handled.
 
 ## Project Dependencies
 This project relies on the following dependencies:
