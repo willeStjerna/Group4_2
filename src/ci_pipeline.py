@@ -115,18 +115,53 @@ class CIPipeline:
             # Run pytest and capture output
             result = subprocess.run(["pytest", tests_dir], capture_output=True, text=True)
 
-            print(result.stdout)
+            # Clean up the output from the tests
+            lines = result.stdout.split("\n")
+            cleaned = []
+            skip_next = False
+
+            for line in lines:
+                if "test session starts" in line or "platform" in line or "rootdir" in line:
+                    continue
+
+                if "passed" in line or "failed" in line and "=" in line:
+                    cleaned.append(line)
+                    continue
+
+                if line.strip() and not line.startswith("="):
+
+                    if "tmp/ci_workspaces" in line or "C:\\tmp\\ci_workspaces" in line:
+                        skip_next = True
+                        continue
+
+                    if "[" in line and "%" in line and "]" in line:
+                        continue
+
+                    if "self = " in line:
+                        continue
+
+                    if skip_next:
+                        skip_next = False
+                        continue
+
+                    if "AssertionError" in line:
+                        cleaned.append("Error cause: " + line)
+                        continue
+
+                    cleaned.append(line)
+
+            cleaned_output = "\n".join(cleaned)
 
             if result.returncode == 0:
                 self.logger.log_build_result(build_id, "tests", "success", "All tests passed.")
                 return "Build was successful", True
             else:
                 self.logger.log_build_result(build_id, "tests", "failure", result.stdout + "\n" + result.stderr)
-                return result.stdout, False
+                return cleaned_output, False
 
         except Exception as e:
             self.logger.log_build_result(build_id, "tests", "failure", f"Test execution error: {e}")
-            return "result.stdout", False
+            return cleaned_output, False
     
     def cleanup_workspace(self, repo_path):
         """
