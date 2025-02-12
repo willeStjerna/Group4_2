@@ -40,7 +40,7 @@ class TestCIPipeline(unittest.TestCase):
         
         self.assertTrue(result)
         mock_repo.clone_from.assert_called_once_with(
-            rep o_url, 
+            repo_url, 
             self.test_repo_dir, 
             branch="main"
         )
