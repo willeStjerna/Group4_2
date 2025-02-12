@@ -4,8 +4,17 @@ import uuid
 from flask import Flask, request, jsonify
 from git import Repo
 import threading
+import logging
 from src.ci_pipeline import CIPipeline
 from src.notifications import send_email_notification
+
+# Configure logging
+logging.basicConfig(
+    level=logging.INFO,  # Change to DEBUG for more details
+    format="%(asctime)s [%(levelname)s] %(message)s",
+    handlers=[logging.StreamHandler()]
+)
+
 
 members = {
     "agussarsson": "arvid.gussarsson@gmail.com",
@@ -26,28 +35,34 @@ class CIServer:
         build_id = str(uuid.uuid4())
         workspace = os.path.join(self.base_dir, build_id)
 
-        print(f"[CI SERVER] Starting CI process for {repo_url} on branch {branch_name} (commit: {commit_id})")
+        logging.info(f"Starting CI process for {repo_url} on branch {branch_name} (commit: {commit_id})")
 
         # Clone or pull the repository
         clone_success = self.pipeline.clone_pull_repo(repo_url, workspace, branch_name)
         if not clone_success:
+            logging.error("Cloning repository failed.")
             send_email_notification(commit_id, author_email, "Failure", "Cloning repository failed.")
             return build_id, False, "Cloning repository failed."
 
         # Run syntax check
+        logging.info("Running syntax check...")
         syntax_success = self.pipeline.check_python_syntax(build_id, workspace)
         if not syntax_success:
+            logging.error("Syntax errors detected.")
             send_email_notification(commit_id, author_email, "Failure", "Syntax errors detected.")
             return build_id, False, "Syntax errors detected."
 
         # Run tests
+        logging.info("Running tests...")
         tests_success = self.pipeline.run_tests(build_id, workspace)
         
         # Cleanup workspace
+        logging.info("Cleaning up workspace...")
         self.pipeline.cleanup_workspace(workspace)
-        print("here")
+
         # Determine final status
         final_status = "Success" if tests_success else "Failure"
+        logging.info(f"CI process completed with status: {final_status}")
         send_email_notification(commit_id, author_email, final_status, "CI Process Completed.")
 
         return build_id, tests_success, "CI Process Completed."
@@ -76,6 +91,8 @@ def webhook():
         if not data:
             return jsonify({"error": "no JSON data found"}), 400
 
+        logging.info("Webhook received, processing data...")
+
         repo_url = data["repository"]["clone_url"]  # Extracted from top-level JSON
         branch_name = data["ref"].split("/")[-1]  # Extract branch name from "refs/heads/<branch>"
         commit_id = data["head_commit"]["id"]
@@ -91,6 +108,7 @@ def webhook():
             """
             Function to execute CI process asynchronously.
             """
+            logging.info(f"Starting async CI process for commit {commit_id} on branch {branch_name}...")
             build_id, test_success, log_output = ci_server.process_build(repo_url, branch_name, commit_id, author_email)
             send_email_notification(commit_id, author_email, "Success" if test_success else "Failure", log_output)
 
@@ -98,6 +116,9 @@ def webhook():
         thread = threading.Thread(target=run_ci, args=(repo_url, branch_name, commit_id, author_email))
         thread.daemon = True  # Ensures the thread does not block Flask shutdown
         thread.start()
+
+        logging.info(f"CI process triggered for {commit_id} on branch {branch_name}")
+
         return jsonify({
             "message": "CI process started",
             "repository": repo_url,
@@ -108,11 +129,14 @@ def webhook():
         }), 200
 
     except KeyError as e:
+        logging.error(f"Missing expected data in webhook: {e}")
         return jsonify({"error": f"Missing expected data in webhook: {e}"}), 400
 
     except Exception as e:
+        logging.error(f"Unexpected error: {e}")
         return jsonify({"error": f"Unexpected error: {e}"}), 500
 
 
 if __name__ == '__main__':
+    logging.info("Starting CI Server...")
     app.run(port=8004, debug=True)  # port 8000 + <group number>
