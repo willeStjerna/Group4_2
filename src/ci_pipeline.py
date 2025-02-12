@@ -82,7 +82,7 @@ class CIPipeline:
                 'failure',
                 '\n'.join(syntax_errors)
             )
-            return False
+            return syntax_errors, False
         
         self.logger.log_build_result(
             build_id,
@@ -90,7 +90,7 @@ class CIPipeline:
             'success',
             'All Python files passed syntax check'
         )
-        return True
+        return "No syntax errors detected.", True
     
     def run_tests(self, build_id, repo_path):
         """

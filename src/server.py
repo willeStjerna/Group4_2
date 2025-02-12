@@ -35,10 +35,9 @@ class CIServer:
             return build_id, False, "Cloning repository failed."
 
         # Run syntax check
-        syntax_success = self.pipeline.check_python_syntax(build_id, workspace)
+        syntax_output, syntax_success = self.pipeline.check_python_syntax(build_id, workspace)
         if not syntax_success:
-            send_email_notification(commit_id, author_email, "Failure", "Syntax errors detected.")
-            return build_id, False, "Syntax errors detected."
+            return build_id, "failed", syntax_output
 
         # Run tests
         std_output, tests_success = self.pipeline.run_tests(build_id, workspace)
