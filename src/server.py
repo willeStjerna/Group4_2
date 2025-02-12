@@ -48,9 +48,8 @@ class CIServer:
         print("here")
         # Determine final status
         final_status = "Success" if tests_success else "Failure"
-        send_email_notification(commit_id, author_email, final_status, "CI Process Completed.")
 
-        return build_id, tests_success, "CI Process Completed."
+        return build_id, final_status, "CI Process Completed."
 
 
 # Flask API for CI Server
@@ -92,7 +91,7 @@ def webhook():
             Function to execute CI process asynchronously.
             """
             build_id, test_success, log_output = ci_server.process_build(repo_url, branch_name, commit_id, author_email)
-            send_email_notification(commit_id, author_email, "Success" if test_success else "Failure", log_output)
+            send_email_notification(build_id, author_email, test_success, log_output)
 
         # Start a daemon thread
         thread = threading.Thread(target=run_ci, args=(repo_url, branch_name, commit_id, author_email))
