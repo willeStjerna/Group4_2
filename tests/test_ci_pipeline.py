@@ -108,6 +108,17 @@ class TestCIPipeline(unittest.TestCase):
             text=True
         )
         
+    def test_run_tests_no_test_directory(self):
+        """
+        Test behavior when no tests directory exists.
+        """
+        os.makedirs(self.test_repo_dir)  # No tests dir
+        
+        result = self.pipeline.run_tests(self.test_build_id, self.test_repo_dir)
+        
+        self.assertTrue(result)  # No tests = no tests to fail = True
+
+        
     @patch('subprocess.run')
     def test_run_tests_failure(self, mock_run):
         """
