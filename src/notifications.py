@@ -24,7 +24,7 @@ def send_email_notification(commit_id, receiver, build_status, log_output):
     """
     subject = f"CI Build: {build_status}, Commit: {commit_id[:7]}"
     message = f"""
-    The CI build status for commit {commit_id} has {build_status}.
+    The CI build for commit {commit_id} {build_status}.
 
     Build logs:
     {log_output}

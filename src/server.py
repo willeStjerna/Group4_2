@@ -41,15 +41,15 @@ class CIServer:
             return build_id, False, "Syntax errors detected."
 
         # Run tests
-        tests_success = self.pipeline.run_tests(build_id, workspace)
+        std_output, tests_success = self.pipeline.run_tests(build_id, workspace)
         
         # Cleanup workspace
         self.pipeline.cleanup_workspace(workspace)
         print("here")
         # Determine final status
-        final_status = "Success" if tests_success else "Failure"
+        final_status = "succeeded" if tests_success else "failed"
 
-        return build_id, final_status, "CI Process Completed."
+        return build_id, final_status, std_output
 
 
 # Flask API for CI Server

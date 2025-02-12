@@ -115,16 +115,18 @@ class CIPipeline:
             # Run pytest and capture output
             result = subprocess.run(["pytest", tests_dir], capture_output=True, text=True)
 
+            print(result.stdout)
+
             if result.returncode == 0:
                 self.logger.log_build_result(build_id, "tests", "success", "All tests passed.")
-                return True
+                return "Build was successful", True
             else:
                 self.logger.log_build_result(build_id, "tests", "failure", result.stdout + "\n" + result.stderr)
-                return False
+                return result.stdout, False
 
         except Exception as e:
             self.logger.log_build_result(build_id, "tests", "failure", f"Test execution error: {e}")
-            return False
+            return "result.stdout", False
     
     def cleanup_workspace(self, repo_path):
         """
