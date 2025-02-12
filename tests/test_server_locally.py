@@ -1,8 +1,7 @@
 import os
 import sys
 import unittest
-
-from src.server import app  # Import the Flask "app" from server.py
+from src.server import app
 
 class ServerConnectionTest(unittest.TestCase):
     """

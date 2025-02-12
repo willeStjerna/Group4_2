@@ -3,9 +3,9 @@ import os
 import uuid
 from flask import Flask, request, jsonify
 from git import Repo
-from .ci_pipeline import CIPipeline
-from .notifications import send_email_notification
 import threading
+from src.ci_pipeline import CIPipeline
+from src.notifications import send_email_notification
 
 members = {
     "agussarsson": "arvid.gussarsson@gmail.com",

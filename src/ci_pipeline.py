@@ -1,10 +1,10 @@
 # Main CI logic (compilation, testing)
 import ast
 import os
-from logger import BuildLogger
 import git
 import subprocess
 import shutil
+from src.logger import BuildLogger
 
 class CIPipeline:
     def __init__(self):
