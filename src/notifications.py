@@ -5,11 +5,14 @@ import os
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 import sys
+from dotenv import load_dotenv
 
-smtp_server = "smtp.mailersend.net"
+load_dotenv() # loading env variables
+
+smtp_server = os.getenv("smtp_server")
 port = 587
-sender = "MS_EbrG0O@trial-pr9084zq8rj4w63d.mlsender.net"
-pwd = "mssp.vezuVRd.0p7kx4xqk27g9yjr.m46V6sL"
+sender = os.getenv("smtp_sender")
+pwd = os.getenv("smtp_pwd")
 
 def send_email_notification(commit_id, receiver, build_status, log_output):
     """
