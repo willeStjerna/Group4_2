@@ -107,6 +107,19 @@ class TestCIPipeline(unittest.TestCase):
             capture_output=True,
             text=True
         )
+        
+    @patch('subprocess.run')
+    def test_run_tests_failure(self, mock_run):
+        """
+        Test failed test execution with pytest.
+        """
+        os.makedirs(os.path.join(self.test_repo_dir, "tests"))
+        mock_run.return_value.returncode = 1
+        mock_run.return_value.stdout = "Test failures occurred"
+        
+        result = self.pipeline.run_tests(self.test_build_id, self.test_repo_dir)
+        
+        self.assertFalse(result)
 
 
 if __name__ == "__main__":
