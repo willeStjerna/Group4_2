@@ -90,6 +90,23 @@ class TestCIPipeline(unittest.TestCase):
         result = self.pipeline.check_python_syntax(self.test_build_id, self.test_repo_dir)
         self.assertFalse(result)
         
+    @patch('subprocess.run')
+    def test_run_tests_success(self, mock_run):
+        """
+        Test successful test execution with pytest.
+        """
+        os.makedirs(os.path.join(self.test_repo_dir, "tests"))
+        mock_run.return_value.returncode = 0
+        mock_run.return_value.stdout = "All tests passed"
+        
+        result = self.pipeline.run_tests(self.test_build_id, self.test_repo_dir)
+        
+        self.assertTrue(result)
+        mock_run.assert_called_once_with(
+            ["pytest", os.path.join(self.test_repo_dir, "tests")],
+            capture_output=True,
+            text=True
+        )
 
 
 if __name__ == "__main__":
