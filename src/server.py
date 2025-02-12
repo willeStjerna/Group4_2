@@ -89,8 +89,19 @@ def webhook():
         data = request.get_json(silent=True)  # silent=True prevents automatic 415 errors
 
         if not data:
-            return jsonify({"error": "no JSON data found"}), 400
+            logging.error("400 No JSON data found")
+            return jsonify({"error": "No JSON data found"}), 400
 
+        # Handle ping from github
+        if "zen" in data:
+            logging.info("200: Github ping received, sending back pong")
+            return jsonify({"msg": "pong"}), 200
+        
+        # Make sure its a push event
+        if ("ref" not in data) or ("head_commit" not in data) or ("repository" not in data):
+            logging.error("400 Not a push event")
+            return jsonify({"error": "Not a valid push event"}), 400
+        
         logging.info("Webhook received, processing data...")
 
         repo_url = data["repository"]["clone_url"]  # Extracted from top-level JSON
@@ -129,11 +140,11 @@ def webhook():
         }), 200
 
     except KeyError as e:
-        logging.error(f"Missing expected data in webhook: {e}")
+        logging.error(f"400 Missing expected data in webhook: {e}")
         return jsonify({"error": f"Missing expected data in webhook: {e}"}), 400
 
     except Exception as e:
-        logging.error(f"Unexpected error: {e}")
+        logging.error(f"500 Unexpected error: {e}")
         return jsonify({"error": f"Unexpected error: {e}"}), 500
 
 
