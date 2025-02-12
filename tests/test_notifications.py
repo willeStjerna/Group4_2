@@ -3,9 +3,10 @@ from unittest.mock import patch
 import smtplib
 import sys
 import os
+from  src.notifications import send_email_notification
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../src')))
-import notifications
+
 
 class TestNotifications(unittest.TestCase):
 
@@ -20,7 +21,7 @@ class TestNotifications(unittest.TestCase):
         dev_email = "some_dev@example.com"
         build_status = "Success"
         log_content = "abcabc"
-        notifications.send_email_notification(commit_id, dev_email, build_status, log_content)
+        send_email_notification(commit_id, dev_email, build_status, log_content)
 
         mock_server.sendmail.assert_called()
         mock_server.quit.assert_called()

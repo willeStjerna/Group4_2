@@ -5,19 +5,21 @@ import subprocess
 import git
 import shutil
 from unittest.mock import patch
+from src.ci_pipeline import CIPipeline
+
 # Update line below to match the file, function and variable names that are to be implemented
 # from file_name import clone_pull_function, repo_url, repo_dir
 repo_url = "https://github.com/willeStjerna/Group4_2"
 
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../src')))
-import ci_pipeline
+#sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../src')))
+
 
 class TestCIPipeline(unittest.TestCase):
     def setUp(self):
         """
         Set up test environment before each test.
         """
-        self.pipeline = ci_pipeline.CIPipeline()
+        self.pipeline = CIPipeline()
         self.test_build_id = "test_build"
         self.test_repo_dir = "./test_repo"
 

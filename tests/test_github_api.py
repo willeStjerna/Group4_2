@@ -3,18 +3,16 @@ import requests
 from unittest.mock import patch
 import sys
 import os
+from src.server import app
 
-
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../src')))
-import server
 
 class TestGitHubAPI(unittest.TestCase):
     def setUp(self):
         """
         Create a simulated client for the CI server
         """
-        server.app.testing = True
-        self.client = server.app.sim_client()
+        app.testing = True
+        self.client = app.sim_client()
 
     def test_webhook_payload(self):
         """
