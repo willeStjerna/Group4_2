@@ -42,7 +42,7 @@ class TestCIPipeline(unittest.TestCase):
         
         self.assertTrue(result)
         mock_repo.clone_from.assert_called_once_with(
-            rep o_url, 
+            repo_url, 
             self.test_repo_dir, 
             branch="main"
         )
@@ -90,6 +90,47 @@ class TestCIPipeline(unittest.TestCase):
         result = self.pipeline.check_python_syntax(self.test_build_id, self.test_repo_dir)
         self.assertFalse(result)
         
+    @patch('subprocess.run')
+    def test_run_tests_success(self, mock_run):
+        """
+        Test successful test execution with pytest.
+        """
+        os.makedirs(os.path.join(self.test_repo_dir, "tests"))
+        mock_run.return_value.returncode = 0
+        mock_run.return_value.stdout = "All tests passed"
+        
+        result = self.pipeline.run_tests(self.test_build_id, self.test_repo_dir)
+        
+        self.assertTrue(result)
+        mock_run.assert_called_once_with(
+            ["pytest", os.path.join(self.test_repo_dir, "tests")],
+            capture_output=True,
+            text=True
+        )
+        
+    def test_run_tests_no_test_directory(self):
+        """
+        Test behavior when no tests directory exists.
+        """
+        os.makedirs(self.test_repo_dir)  # No tests dir
+        
+        result = self.pipeline.run_tests(self.test_build_id, self.test_repo_dir)
+        
+        self.assertTrue(result)  # No tests = no tests to fail = True
+
+        
+    @patch('subprocess.run')
+    def test_run_tests_failure(self, mock_run):
+        """
+        Test failed test execution with pytest.
+        """
+        os.makedirs(os.path.join(self.test_repo_dir, "tests"))
+        mock_run.return_value.returncode = 1
+        mock_run.return_value.stdout = "Test failures occurred"
+        
+        result = self.pipeline.run_tests(self.test_build_id, self.test_repo_dir)
+        
+        self.assertFalse(result)
 
 
 if __name__ == "__main__":
