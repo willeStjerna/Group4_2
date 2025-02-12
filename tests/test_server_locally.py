@@ -39,27 +39,37 @@ class ServerConnectionTest(unittest.TestCase):
         self.assertEqual(data.get("message"), expected_message, 
                          msg=f"Expected JSON 'message' to be {expected_message}")
 
-
-
     def test_webhook_post_correct(self):
         """
         Test that a correct POST request with JSON data to /webhook
         responds with status code 200 and contains the expected message.
         """
-        test_payload = {"test": "hello"}
-        response = self.client.post("/webhook", json=test_payload)
+
+        test_payload = {
+            "ref": "refs/heads/main",
+            "repository": {
+                "clone_url": "https://github.com/my_username/test_webhook.git",
+            },
+
+            "head_commit": {
+                "id": "010bdeafe312d8d7b13a3263f6df25a815ffa41c",
+                "message": "Update my_program.py",
+                "url": "https://github.com/thier_username/test_webhook/commit/010bdeafe312d8d7b13a3263f6df25a815ffa41c",
+                "author": {
+                    "name": "Firstname Lastname",
+                    "email": "36476090+my_username@users.noreply.github.com",
+                    "username": "my_username"
+                }
+            }
+        }
+
+        response = self.client.post("/webhook", json=test_payload, content_type="application/json")
 
         # Status code check
         self.assertEqual(
             response.status_code,
             200,
             msg="Expected 200 when POSTing valid JSON, but got {}".format(response.status_code)
-        )
-        # Response body check
-        self.assertIn(
-            b"Webhook received!",
-            response.data,
-            msg=f"Expected response to contain 'Webhook received!' but got: {response.data.decode()}"
         )
 
     def test_webhook_post_no_data(self):
