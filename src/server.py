@@ -18,7 +18,7 @@ logging.basicConfig(
 
 members = {
     "agussarsson": "arvid.gussarsson@gmail.com",
-    "andrelindgren": "andre.lindgren98gmail.com",
+    "andrelindgren": "andre.lindgren98@gmail.com",
     "willeStjerna": "wille.stjerna@gmail.com"
 }
 
