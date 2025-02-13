@@ -132,7 +132,7 @@ def webhook():
             """
             logging.info(f"Starting async CI process for commit {commit_id} on branch {branch_name}...")
             build_id, test_success, log_output = ci_server.process_build(repo_url, branch_name, commit_id, author_email)
-            send_email_notification(build_id, author_email, test_success, log_output, author_username, branch_name)
+            send_email_notification(commit_id, author_email, test_success, log_output, author_username, branch_name)
 
         # Start a daemon thread
         thread = threading.Thread(target=run_ci, args=(repo_url, branch_name, commit_id, author_email))
