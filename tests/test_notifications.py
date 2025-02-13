@@ -21,7 +21,9 @@ class TestNotifications(unittest.TestCase):
         dev_email = "some_dev@example.com"
         build_status = "Success"
         log_content = "abcabc"
-        send_email_notification(commit_id, dev_email, build_status, log_content)
+        user = "superman"
+        branch = "main"
+        send_email_notification(commit_id, dev_email, build_status, log_content, user, branch)
 
         mock_server.sendmail.assert_called()
         mock_server.quit.assert_called()

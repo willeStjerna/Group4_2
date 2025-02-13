@@ -85,10 +85,10 @@ class TestCIPipeline(unittest.TestCase):
         os.makedirs(self.test_repo_dir)
         test_file = os.path.join(self.test_repo_dir, "test.py")
         with open(test_file, 'w') as f:
-            f.write("def invalid_function():\n    return True:")
+            f.write("df invalid_function():\n    return True:")
 
-        result = self.pipeline.check_python_syntax(self.test_build_id, self.test_repo_dir)
-        self.assertFalse(result)
+        syntax_output, syntax_success = self.pipeline.check_python_syntax(self.test_build_id, self.test_repo_dir)
+        self.assertFalse(syntax_success)
         
     @patch('subprocess.run')
     def test_run_tests_success(self, mock_run):
@@ -128,9 +128,8 @@ class TestCIPipeline(unittest.TestCase):
         mock_run.return_value.returncode = 1
         mock_run.return_value.stdout = "Test failures occurred"
         
-        result = self.pipeline.run_tests(self.test_build_id, self.test_repo_dir)
-        
-        self.assertFalse(result)
+        cleaned_output, success = self.pipeline.run_tests(self.test_build_id, self.test_repo_dir)
+        self.assertFalse(success)
 
 
 if __name__ == "__main__":
