@@ -1,0 +1,59 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><title>Python: module notifications</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</head><body bgcolor="#f0f0f8">
+
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="heading">
+<tr bgcolor="#7799ee">
+<td valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial">&nbsp;<br><big><big><strong>notifications</strong></big></big></font></td
+><td align=right valign=bottom
+><font color="#ffffff" face="helvetica, arial"><a href=".">index</a><br><a href="file:/home/marcuserlandsson/School/DD2480_Softare_Dev_Intro/Group4_2/src/notifications.py">/home/marcuserlandsson/School/DD2480_Softare_Dev_Intro/Group4_2/src/notifications.py</a></font></td></tr></table>
+    <p><tt>Notifications&nbsp;Module<br>
+&nbsp;<br>
+This&nbsp;module&nbsp;handles&nbsp;email&nbsp;notifications&nbsp;for&nbsp;CI&nbsp;build&nbsp;results,<br>
+supporting&nbsp;SMTP-based&nbsp;email&nbsp;delivery&nbsp;with&nbsp;configurable&nbsp;settings<br>
+loaded&nbsp;from&nbsp;environment&nbsp;variables.<br>
+&nbsp;<br>
+Functions:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;send_email_notification:&nbsp;Sends&nbsp;build&nbsp;status&nbsp;notifications&nbsp;via&nbsp;email<br>
+&nbsp;<br>
+Environment&nbsp;Variables&nbsp;Required:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;smtp_server:&nbsp;SMTP&nbsp;server&nbsp;hostname<br>
+&nbsp;&nbsp;&nbsp;&nbsp;smtp_sender:&nbsp;Sender&nbsp;email&nbsp;address<br>
+&nbsp;&nbsp;&nbsp;&nbsp;smtp_pwd:&nbsp;SMTP&nbsp;authentication&nbsp;password</tt></p>
+<p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#aa55cc">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Modules</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#aa55cc"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><table width="100%" summary="list"><tr><td width="25%" valign=top><a href="logging.html">logging</a><br>
+</td><td width="25%" valign=top><a href="os.html">os</a><br>
+</td><td width="25%" valign=top><a href="smtplib.html">smtplib</a><br>
+</td><td width="25%" valign=top><a href="sys.html">sys</a><br>
+</td></tr></table></td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#eeaa77">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Functions</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#eeaa77"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl><dt><a name="-send_email_notification"><strong>send_email_notification</strong></a>(commit_id, receiver, build_status, log_output, user, branch)</dt><dd><tt>Sends&nbsp;an&nbsp;email&nbsp;notification&nbsp;about&nbsp;the&nbsp;CI&nbsp;build&nbsp;result.<br>
+&nbsp;<br>
+param&nbsp;commit_id&nbsp;(str):&nbsp;The&nbsp;Git&nbsp;commit&nbsp;hash&nbsp;being&nbsp;tested<br>
+param&nbsp;build_status&nbsp;(str):&nbsp;"Success"&nbsp;or&nbsp;"Failure"<br>
+param&nbsp;log_output&nbsp;(str):&nbsp;Log&nbsp;output&nbsp;from&nbsp;the&nbsp;build/test&nbsp;process</tt></dd></dl>
+</td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#55aa55">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Data</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#55aa55"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><strong>port</strong> = 587<br>
+<strong>pwd</strong> = None<br>
+<strong>sender</strong> = None<br>
+<strong>smtp_server</strong> = None</td></tr></table>
+</body></html>

@@ -1,0 +1,76 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><title>Python: module logger</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</head><body bgcolor="#f0f0f8">
+
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="heading">
+<tr bgcolor="#7799ee">
+<td valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial">&nbsp;<br><big><big><strong>logger</strong></big></big></font></td
+><td align=right valign=bottom
+><font color="#ffffff" face="helvetica, arial"><a href=".">index</a><br><a href="file:/home/marcuserlandsson/School/DD2480_Softare_Dev_Intro/Group4_2/src/logger.py">/home/marcuserlandsson/School/DD2480_Softare_Dev_Intro/Group4_2/src/logger.py</a></font></td></tr></table>
+    <p><tt>Build&nbsp;Logger&nbsp;Module<br>
+&nbsp;<br>
+This&nbsp;module&nbsp;provides&nbsp;logging&nbsp;functionality&nbsp;for&nbsp;CI&nbsp;build&nbsp;processes,<br>
+creating&nbsp;timestamped&nbsp;logs&nbsp;for&nbsp;each&nbsp;build&nbsp;stage&nbsp;in&nbsp;a&nbsp;dedicated&nbsp;log&nbsp;directory.<br>
+&nbsp;<br>
+Classes:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#BuildLogger">BuildLogger</a>:&nbsp;Handles&nbsp;logging&nbsp;of&nbsp;build&nbsp;events&nbsp;and&nbsp;results<br>
+&nbsp;<br>
+Functions:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;None&nbsp;(all&nbsp;functionality&nbsp;is&nbsp;encapsulated&nbsp;in&nbsp;the&nbsp;<a href="#BuildLogger">BuildLogger</a>&nbsp;class)</tt></p>
+<p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#aa55cc">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Modules</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#aa55cc"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><table width="100%" summary="list"><tr><td width="25%" valign=top><a href="os.html">os</a><br>
+</td><td width="25%" valign=top></td><td width="25%" valign=top></td><td width="25%" valign=top></td></tr></table></td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ee77aa">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Classes</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#ee77aa"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl>
+<dt><font face="helvetica, arial"><a href="builtins.html#object">builtins.object</a>
+</font></dt><dd>
+<dl>
+<dt><font face="helvetica, arial"><a href="logger.html#BuildLogger">BuildLogger</a>
+</font></dt></dl>
+</dd>
+</dl>
+ <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="BuildLogger">class <strong>BuildLogger</strong></a>(<a href="builtins.html#object">builtins.object</a>)</font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt><a href="#BuildLogger">BuildLogger</a>(log_dir='logs')<br>
+&nbsp;<br>
+<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%">Methods defined here:<br>
+<dl><dt><a name="BuildLogger-__init__"><strong>__init__</strong></a>(self, log_dir='logs')</dt><dd><tt>Initialize&nbsp;self.&nbsp;&nbsp;See&nbsp;help(type(self))&nbsp;for&nbsp;accurate&nbsp;signature.</tt></dd></dl>
+
+<dl><dt><a name="BuildLogger-log_build_result"><strong>log_build_result</strong></a>(self, build_id, stage, status, details)</dt><dd><tt>Log&nbsp;build&nbsp;results&nbsp;to&nbsp;a&nbsp;new&nbsp;file&nbsp;in&nbsp;the&nbsp;"logs"&nbsp;folder.<br>
+&nbsp;<br>
+Args:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;build_id&nbsp;(str):&nbsp;Unique&nbsp;identifier&nbsp;for&nbsp;the&nbsp;build<br>
+&nbsp;&nbsp;&nbsp;&nbsp;stage&nbsp;(str):&nbsp;Pipeline&nbsp;stage&nbsp;(e.g.,&nbsp;'syntax_check',&nbsp;'tests')<br>
+&nbsp;&nbsp;&nbsp;&nbsp;status&nbsp;(str):&nbsp;Status&nbsp;of&nbsp;the&nbsp;stage&nbsp;('success',&nbsp;'failure')<br>
+&nbsp;&nbsp;&nbsp;&nbsp;details&nbsp;(str):&nbsp;Additional&nbsp;information&nbsp;about&nbsp;the&nbsp;stage&nbsp;result</tt></dd></dl>
+
+<hr>
+Data descriptors defined here:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><tt>dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+</td></tr></table></td></tr></table>
+</body></html>

@@ -1,4 +1,17 @@
-# Flask server to handle GitHub webhooks
+"""
+CI Server Module
+
+This module implements a Flask-based web server that handles GitHub webhooks
+and manages the CI pipeline execution. It processes incoming webhook events,
+triggers builds, and manages asynchronous CI operations.
+
+Classes:
+    CIServer: Manages CI workspace and build processes
+
+Functions:
+    index: Root endpoint that confirms server status
+    webhook: Handles GitHub webhook POST requests
+"""
 import os
 import uuid
 from flask import Flask, request, jsonify

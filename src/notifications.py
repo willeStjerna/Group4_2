@@ -1,5 +1,18 @@
-# Email notifications
+"""
+Notifications Module
 
+This module handles email notifications for CI build results,
+supporting SMTP-based email delivery with configurable settings
+loaded from environment variables.
+
+Functions:
+    send_email_notification: Sends build status notifications via email
+
+Environment Variables Required:
+    smtp_server: SMTP server hostname
+    smtp_sender: Sender email address
+    smtp_pwd: SMTP authentication password
+"""
 import smtplib
 import os
 from email.mime.text import MIMEText

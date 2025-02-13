@@ -1,3 +1,18 @@
+"""
+Ngrok Server Module
+
+This module manages the setup and execution of an ngrok tunnel
+for exposing the local Flask server to the internet. It handles
+configuration loading, tunnel establishment, and process cleanup.
+
+Functions:
+    start_ngrok_server: Initializes and manages ngrok tunnel and Flask server
+
+Configuration:
+    Requires a config.json file in the project root with:
+    - ngrok_hostname: Static domain
+    - port: Port number for the server
+"""
 import os
 import sys
 import json
