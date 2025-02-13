@@ -41,7 +41,7 @@ class CIServer:
         os.makedirs(base_dir, exist_ok=True)
         self.pipeline = CIPipeline()
         
-    def process_build(self, repo_url, branch_name, commit_id, author_email):
+    def process_build(self, repo_url, branch_name, commit_id, author_email, author_username):
         """
         Executes the CI process: Clone repo, run syntax check, run tests, cleanup.
         """
@@ -54,7 +54,7 @@ class CIServer:
         clone_success = self.pipeline.clone_pull_repo(repo_url, workspace, branch_name)
         if not clone_success:
             logging.error("Cloning repository failed.")
-            send_email_notification(commit_id, author_email, "Failure", "Cloning repository failed.")
+            send_email_notification(build_id, commit_id, author_email, "Failed", "Cloning repository failed.", author_username, branch_name)
             return build_id, False, "Cloning repository failed."
 
         # Run syntax check
@@ -131,8 +131,8 @@ def webhook():
             Function to execute CI process asynchronously.
             """
             logging.info(f"Starting async CI process for commit {commit_id} on branch {branch_name}...")
-            build_id, test_success, log_output = ci_server.process_build(repo_url, branch_name, commit_id, author_email)
-            send_email_notification(build_id, author_email, test_success, log_output, author_username, branch_name)
+            build_id, test_success, log_output = ci_server.process_build(repo_url, branch_name, commit_id, author_email, author_username)
+            send_email_notification(build_id, commit_id, author_email, test_success, log_output, author_username, branch_name)
 
         # Start a daemon thread
         thread = threading.Thread(target=run_ci, args=(repo_url, branch_name, commit_id, author_email))
