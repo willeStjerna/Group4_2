@@ -156,3 +156,5 @@ William Yu Stjernström: Worked on README, project setup (scripts, venv), ci_pip
 
 Arvid Gussarsson: Worked on test_ci_pipeline (test pull/clone repo), test_github_api (test webhook functionality), test_notifications (test email functionality), notifications (email functionality), and server (working some on server functionality and notification handling) and ci_pipeline (working on errors for debugging).
 
+Marcus Erlandsson: Worked on ci_pipeline (syntax checking), test_ci_pipeline (unit tests for syntax checking and cloning repo), logger (for local logging of build results), server (function for building the project and running syntax check, logging etc) and wrote on report.md. 
+
