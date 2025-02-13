@@ -17,13 +17,14 @@ class TestNotifications(unittest.TestCase):
         """
         mock_server = mock_smtp.return_value
 
+        build_id = "858bcd55379dcb9"
         commit_id = "abc123"
         dev_email = "some_dev@example.com"
         build_status = "Success"
         log_content = "abcabc"
         user = "superman"
         branch = "main"
-        send_email_notification(commit_id, dev_email, build_status, log_content, user, branch)
+        send_email_notification(build_id, commit_id, dev_email, build_status, log_content, user, branch)
 
         mock_server.sendmail.assert_called()
         mock_server.quit.assert_called()
