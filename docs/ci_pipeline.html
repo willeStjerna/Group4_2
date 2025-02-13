@@ -1,0 +1,103 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><title>Python: module ci_pipeline</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</head><body bgcolor="#f0f0f8">
+
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="heading">
+<tr bgcolor="#7799ee">
+<td valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial">&nbsp;<br><big><big><strong>ci_pipeline</strong></big></big></font></td
+><td align=right valign=bottom
+><font color="#ffffff" face="helvetica, arial"><a href=".">index</a><br><a href="file:/home/marcuserlandsson/School/DD2480_Softare_Dev_Intro/Group4_2/src/ci_pipeline.py">/home/marcuserlandsson/School/DD2480_Softare_Dev_Intro/Group4_2/src/ci_pipeline.py</a></font></td></tr></table>
+    <p><tt>CI&nbsp;Pipeline&nbsp;Module<br>
+&nbsp;<br>
+This&nbsp;module&nbsp;contains&nbsp;the&nbsp;main&nbsp;continuous&nbsp;integration&nbsp;logic&nbsp;including&nbsp;repository<br>
+management,&nbsp;syntax&nbsp;checking,&nbsp;and&nbsp;test&nbsp;execution&nbsp;functionality.<br>
+&nbsp;<br>
+Classes:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#CIPipeline">CIPipeline</a>:&nbsp;Main&nbsp;CI&nbsp;logic&nbsp;(compilation,&nbsp;testing,&nbsp;syntax&nbsp;checking)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<br>
+Functions:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;None&nbsp;(all&nbsp;functionality&nbsp;is&nbsp;encapsulated&nbsp;in&nbsp;the&nbsp;<a href="#CIPipeline">CIPipeline</a>&nbsp;class)</tt></p>
+<p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#aa55cc">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Modules</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#aa55cc"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><table width="100%" summary="list"><tr><td width="25%" valign=top><a href="ast.html">ast</a><br>
+<a href="git.html">git</a><br>
+</td><td width="25%" valign=top><a href="logging.html">logging</a><br>
+<a href="os.html">os</a><br>
+</td><td width="25%" valign=top><a href="shutil.html">shutil</a><br>
+<a href="subprocess.html">subprocess</a><br>
+</td><td width="25%" valign=top><a href="sys.html">sys</a><br>
+</td></tr></table></td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ee77aa">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Classes</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#ee77aa"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl>
+<dt><font face="helvetica, arial"><a href="builtins.html#object">builtins.object</a>
+</font></dt><dd>
+<dl>
+<dt><font face="helvetica, arial"><a href="ci_pipeline.html#CIPipeline">CIPipeline</a>
+</font></dt></dl>
+</dd>
+</dl>
+ <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="CIPipeline">class <strong>CIPipeline</strong></a>(<a href="builtins.html#object">builtins.object</a>)</font></td></tr>
+    
+<tr><td bgcolor="#ffc8d8"><tt>&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%">Methods defined here:<br>
+<dl><dt><a name="CIPipeline-__init__"><strong>__init__</strong></a>(self)</dt><dd><tt>Initialize&nbsp;self.&nbsp;&nbsp;See&nbsp;help(type(self))&nbsp;for&nbsp;accurate&nbsp;signature.</tt></dd></dl>
+
+<dl><dt><a name="CIPipeline-check_python_syntax"><strong>check_python_syntax</strong></a>(self, build_id, repo_path)</dt><dd><tt>Perform&nbsp;static&nbsp;syntax&nbsp;checking&nbsp;on&nbsp;all&nbsp;Python&nbsp;files&nbsp;in&nbsp;a&nbsp;repo&nbsp;using&nbsp;the&nbsp;ast&nbsp;library.<br>
+&nbsp;<br>
+Args:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;build_id&nbsp;(str):&nbsp;Unique&nbsp;identifier&nbsp;for&nbsp;the&nbsp;build<br>
+&nbsp;&nbsp;&nbsp;&nbsp;repo_path&nbsp;(str):&nbsp;Path&nbsp;to&nbsp;the&nbsp;repository<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<br>
+Returns:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;bool:&nbsp;True&nbsp;if&nbsp;syntax&nbsp;check&nbsp;passes,&nbsp;False&nbsp;otherwise</tt></dd></dl>
+
+<dl><dt><a name="CIPipeline-cleanup_workspace"><strong>cleanup_workspace</strong></a>(self, repo_path)</dt><dd><tt>Deletes&nbsp;the&nbsp;repository&nbsp;workspace&nbsp;after&nbsp;the&nbsp;CI&nbsp;process&nbsp;is&nbsp;complete.<br>
+&nbsp;<br>
+Args:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;repo_path&nbsp;(str):&nbsp;Path&nbsp;to&nbsp;the&nbsp;repository&nbsp;to&nbsp;be&nbsp;removed.</tt></dd></dl>
+
+<dl><dt><a name="CIPipeline-clone_pull_repo"><strong>clone_pull_repo</strong></a>(self, repo_url, repo_dir, branch_name='main')</dt><dd><tt>Clones&nbsp;or&nbsp;pulls&nbsp;a&nbsp;GitHub&nbsp;repository&nbsp;and&nbsp;checks&nbsp;out&nbsp;the&nbsp;correct&nbsp;branch.<br>
+&nbsp;<br>
+Args:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;repo_url&nbsp;(str):&nbsp;The&nbsp;Git&nbsp;repository&nbsp;URL.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;repo_dir&nbsp;(str):&nbsp;The&nbsp;directory&nbsp;where&nbsp;the&nbsp;repository&nbsp;should&nbsp;be&nbsp;cloned.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;branch_name&nbsp;(str):&nbsp;The&nbsp;branch&nbsp;to&nbsp;check&nbsp;out.<br>
+&nbsp;<br>
+Returns:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;bool:&nbsp;True&nbsp;if&nbsp;successful,&nbsp;False&nbsp;otherwise.</tt></dd></dl>
+
+<dl><dt><a name="CIPipeline-run_tests"><strong>run_tests</strong></a>(self, build_id, repo_path)</dt><dd><tt>Runs&nbsp;unit&nbsp;tests&nbsp;in&nbsp;the&nbsp;repository&nbsp;using&nbsp;pytest.<br>
+&nbsp;<br>
+Args:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;build_id&nbsp;(str):&nbsp;Unique&nbsp;identifier&nbsp;for&nbsp;the&nbsp;build.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;repo_path&nbsp;(str):&nbsp;Path&nbsp;to&nbsp;the&nbsp;repository.<br>
+&nbsp;<br>
+Returns:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;bool:&nbsp;True&nbsp;if&nbsp;all&nbsp;tests&nbsp;pass,&nbsp;False&nbsp;otherwise.</tt></dd></dl>
+
+<hr>
+Data descriptors defined here:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><tt>dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+</td></tr></table></td></tr></table>
+</body></html>
