@@ -1,4 +1,15 @@
-# Main CI logic (compilation, testing)
+"""
+CI Pipeline Module
+
+This module contains the main continuous integration logic including repository
+management, syntax checking, and test execution functionality.
+
+Classes:
+    CIPipeline: Main CI logic (compilation, testing, syntax checking)
+    
+Functions:
+    None (all functionality is encapsulated in the CIPipeline class)
+"""
 import ast
 import os
 import git

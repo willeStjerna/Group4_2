@@ -1,4 +1,15 @@
-# Logging utility
+"""
+Build Logger Module
+
+This module provides logging functionality for CI build processes,
+creating timestamped logs for each build stage in a dedicated log directory.
+
+Classes:
+    BuildLogger: Handles logging of build events and results
+
+Functions:
+    None (all functionality is encapsulated in the BuildLogger class)
+"""
 from datetime import datetime
 import os
 
