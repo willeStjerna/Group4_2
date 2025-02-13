@@ -154,3 +154,5 @@ This project was developed collaboratively, with contributions distributed as fo
 
 William Yu Stjernström: Worked on README, project setup (scripts, venv), ci_pipeline (test execution, cleanup), server (asynchronous thread for CI, process build) and  logging (printing) of status of ci server.
 
+Arvid Gussarsson: Worked on test_ci_pipeline (test pull/clone repo), test_github_api (test webhook functionality), test_notifications (test email functionality), notifications (email functionality), and server (working some on server functionality and notification handling) and ci_pipeline (working on errors for debugging).
+
