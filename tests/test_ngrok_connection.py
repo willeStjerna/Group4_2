@@ -1,5 +1,6 @@
 import os
 import sys
+import pytest
 import platform
 import unittest
 import requests
@@ -7,6 +8,7 @@ import subprocess
 from pyngrok import ngrok
 
 
+@pytest.mark.skip(reason="Skipping ngrok test in CI environment")
 class TestNgrokIntegration(unittest.TestCase):
     """
     Example test suite that:
