@@ -1,0 +1,77 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><title>Python: module start_ngrok_server</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</head><body bgcolor="#f0f0f8">
+
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="heading">
+<tr bgcolor="#7799ee">
+<td valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial">&nbsp;<br><big><big><strong>start_ngrok_server</strong></big></big></font></td
+><td align=right valign=bottom
+><font color="#ffffff" face="helvetica, arial"><a href=".">index</a><br><a href="file:/home/marcuserlandsson/School/DD2480_Softare_Dev_Intro/Group4_2/src/start_ngrok_server.py">/home/marcuserlandsson/School/DD2480_Softare_Dev_Intro/Group4_2/src/start_ngrok_server.py</a></font></td></tr></table>
+    <p><tt>Ngrok&nbsp;Server&nbsp;Module<br>
+&nbsp;<br>
+This&nbsp;module&nbsp;manages&nbsp;the&nbsp;setup&nbsp;and&nbsp;execution&nbsp;of&nbsp;an&nbsp;ngrok&nbsp;tunnel<br>
+for&nbsp;exposing&nbsp;the&nbsp;local&nbsp;Flask&nbsp;server&nbsp;to&nbsp;the&nbsp;internet.&nbsp;It&nbsp;handles<br>
+configuration&nbsp;loading,&nbsp;tunnel&nbsp;establishment,&nbsp;and&nbsp;process&nbsp;cleanup.<br>
+&nbsp;<br>
+Functions:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;start_ngrok_server:&nbsp;Initializes&nbsp;and&nbsp;manages&nbsp;ngrok&nbsp;tunnel&nbsp;and&nbsp;Flask&nbsp;server<br>
+&nbsp;<br>
+Configuration:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Requires&nbsp;a&nbsp;config.json&nbsp;file&nbsp;in&nbsp;the&nbsp;project&nbsp;root&nbsp;with:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;ngrok_hostname:&nbsp;Static&nbsp;domain<br>
+&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;port:&nbsp;Port&nbsp;number&nbsp;for&nbsp;the&nbsp;server</tt></p>
+<p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#aa55cc">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Modules</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#aa55cc"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><table width="100%" summary="list"><tr><td width="25%" valign=top><a href="json.html">json</a><br>
+<a href="pyngrok.ngrok.html">pyngrok.ngrok</a><br>
+</td><td width="25%" valign=top><a href="os.html">os</a><br>
+<a href="platform.html">platform</a><br>
+</td><td width="25%" valign=top><a href="subprocess.html">subprocess</a><br>
+<a href="sys.html">sys</a><br>
+</td><td width="25%" valign=top><a href="textwrap.html">textwrap</a><br>
+</td></tr></table></td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#eeaa77">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Functions</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#eeaa77"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl><dt><a name="-start_ngrok_server"><strong>start_ngrok_server</strong></a>()</dt><dd><tt>Start&nbsp;a&nbsp;ngrok&nbsp;tunnel&nbsp;and&nbsp;Flask&nbsp;server&nbsp;based&nbsp;on&nbsp;configuration&nbsp;settings.<br>
+&nbsp;<br>
+This&nbsp;function&nbsp;sets&nbsp;up&nbsp;a&nbsp;ngrok&nbsp;tunnel&nbsp;and&nbsp;starts&nbsp;a&nbsp;Flask&nbsp;application&nbsp;server.&nbsp;It&nbsp;retrieves&nbsp;hostname&nbsp;and&nbsp;port<br>
+from&nbsp;a&nbsp;JSON&nbsp;file&nbsp;located&nbsp;in&nbsp;the&nbsp;parent&nbsp;directory.&nbsp;The&nbsp;function<br>
+ensures&nbsp;proper&nbsp;cleanup&nbsp;of&nbsp;the&nbsp;ngrok&nbsp;process&nbsp;after&nbsp;termination.<br>
+&nbsp;<br>
+The&nbsp;configuration&nbsp;file&nbsp;must&nbsp;be&nbsp;named&nbsp;'config.json'&nbsp;and&nbsp;should&nbsp;reside&nbsp;in&nbsp;the<br>
+parent&nbsp;directory&nbsp;of&nbsp;the&nbsp;current&nbsp;file&nbsp;following&nbsp;this&nbsp;format:<br>
+&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"ngrok_hostname":&nbsp;"feasible-robin-vaguely.ngrok-free.app",<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"port":&nbsp;8004<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Alternativly&nbsp;one&nbsp;can&nbsp;set&nbsp;the&nbsp;hostname&nbsp;to&nbsp;"random"&nbsp;to&nbsp;have&nbsp;ngrok&nbsp;choose&nbsp;one&nbsp;for&nbsp;you.<br>
+&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"ngrok_hostname":&nbsp;"random",<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"port":&nbsp;8004<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;<br>
+Returns:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;none</tt></dd></dl>
+</td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#55aa55">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Data</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#55aa55"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><strong>app</strong> = &lt;Flask 'src.server'&gt;</td></tr></table>
+</body></html>

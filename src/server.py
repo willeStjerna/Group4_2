@@ -12,7 +12,10 @@ Functions:
     index: Root endpoint that confirms server status
     webhook: Handles GitHub webhook POST requests
 """
+import sys
 import os
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
 import uuid
 from flask import Flask, request, jsonify
 from git import Repo
