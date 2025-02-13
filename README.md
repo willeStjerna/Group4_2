@@ -1,4 +1,5 @@
 # Continuous Integration (CI) Server
+TA test trigger ci service
 
 ## Project Overview
 This CI server automates the process of compiling code, running unit tests, and sending notifications for each new commit pushed to a GitHub repository. It integrates with GitHub Webhooks and executes build steps asynchronously using a daemon thread, ensuring non-blocking behavior in the Flask web server.
